@@ -26,11 +26,13 @@ phrases = {}
 
 ARGV.each do |filename|
   # check if file exists
-  file = File.open(filename)
-
   text = ""
-  file.each do |line|
-    text << line.strip
+  if File.exists?(filename)
+    file = File.open(filename)
+
+    file.each do |line|
+      text << line.strip
+    end
   end
 
   unless text == ""
