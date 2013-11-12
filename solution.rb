@@ -16,6 +16,12 @@ You should push to GitHub at least three times.
 
 require 'benchmark'
 
+class TextProcessor
+  def self.strip_punctuation(text)
+    text.gsub!(/[^0-9a-z ]/i, "")
+  end
+end
+
 phrases = {}
 
 ARGV.each do |filename|
@@ -27,13 +33,15 @@ ARGV.each do |filename|
     text << line.strip
   end
 
-  text = text.gsub!(/[^0-9a-z ]/i, "")
+  unless text == ""
+    text = TextProcessor.strip_punctuation(text.downcase)
 
-  text = text.split(' ')
+    array_of_words = text.split(' ')
 
-  text.each_cons(3) do |t|
-    phrase = t.join(" ")
-    phrases[phrase] = phrases[phrase].nil? ? 1 : phrases[phrase] + 1
+    array_of_words.each_cons(3) do |t|
+      phrase = t.join(" ")
+      phrases[phrase] = phrases[phrase].nil? ? 1 : phrases[phrase] + 1
+    end
   end
 end
 
