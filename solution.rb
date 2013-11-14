@@ -6,6 +6,19 @@ class TextProcessor
   end
 end
 
+class PhraseCounter
+  def self.results_table(phrase_array)
+    table =  "Count \t Phrase\n"
+    table << "------------------------------\n"
+
+    phrase_array.each do |tuple|
+      table << "#{tuple[1]} \t #{tuple[0]}\n"
+    end
+
+    table
+  end
+end
+
 phrases = {}
 
 ARGV.each do |filename|
@@ -33,8 +46,4 @@ end
 
 phrase_array = phrases.sort{ |a,b| a[1] <=> b[1] }.reverse.slice(0,100)
 
-puts "Count \t Phrase"
-puts "------------------------------"
-phrase_array.each do |tuple|
-  puts "#{tuple[1]} \t #{tuple[0]}"
-end
+puts PhraseCounter.results_table(phrase_array)
