@@ -5,12 +5,12 @@ require 'mocha/setup'
 class PhraseCounterTest < MiniTest::Unit::TestCase
   def setup
     @phrase_counter = PhraseCounter.new
-    @phrases = [["foo bar baz", "42"]]
-    @text = Text.new("Foo, bar! baz's \"quote")
+    @phrases = [['foo bar baz', '42']]
+    @text = Text.new('Foo, bar! baz\'s "quote')
   end
 
   def test_counting_phrases_updates_the_phrase_hash
-    assert_change(lambda{ @phrase_counter.phrases.dup }) do
+    assert_change(->{ @phrase_counter.phrases.dup }) do
       @phrase_counter.count_phrases(@text)
     end
 
