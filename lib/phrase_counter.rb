@@ -6,7 +6,7 @@ class PhraseCounter
   end
 
   def count_phrases(text)
-    TextProcessor.prepare_text(text).each_cons(3) do |t|
+    text.prepare_text.each_cons(3) do |t|
       phrase = t.join(' ')
       @phrases[phrase] = phrases[phrase].nil? ? 1 : phrases[phrase] + 1
     end

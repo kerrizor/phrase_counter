@@ -6,7 +6,7 @@ class PhraseCounterTest < MiniTest::Unit::TestCase
   def setup
     @phrase_counter = PhraseCounter.new
     @phrases = [["foo bar baz", "42"]]
-    @text = "Foo, bar! baz's \"quote"
+    @text = Text.new("Foo, bar! baz's \"quote")
   end
 
   def test_counting_phrases_updates_the_phrase_hash
