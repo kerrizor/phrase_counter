@@ -1,22 +1,21 @@
-# require './solution.rb'
-# require 'minitest/unit'
-# require 'minitest/autorun'
-# require 'minitest/pride'
+require 'minitest/unit'
+require 'minitest/autorun'
+require 'minitest/pride'
 
-# class MiniTest::Unit::TestCase
-#   def assert_change(block)
-#     before = block.call
+class MiniTest::Unit::TestCase
+  def assert_change(block)
+    before = block.call
 
-#     yield
+    yield
 
-#     refute_equal before, block.call
-#   end
+    refute_equal before, block.call
+  end
 
-#   def refute_change(block)
-#     before = block.call
+  def refute_change(block)
+    before = block.call
 
-#     yield
+    yield
 
-#     assert_equal before, block.call
-#   end
-# end
+    assert_equal before, block.call
+  end
+end
