@@ -1,7 +1,7 @@
 class Text
   attr_reader :text
   def initialize(text = '')
-    @text = text.downcase
+    @text = text.downcase.gsub(/\n/, ' ')
   end
 
   def prepare_text
@@ -11,6 +11,6 @@ class Text
   private
 
   def strip_punctuation
-    @text.gsub!(/[^0-9a-z ]/i, '')
+    @text.gsub(/[^0-9a-z ]/i, '')
   end
 end
