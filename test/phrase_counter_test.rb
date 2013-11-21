@@ -5,7 +5,6 @@ require 'mocha/setup'
 class PhraseCounterTest < MiniTest::Unit::TestCase
   def setup
     @phrase_counter = PhraseCounter.new
-    @phrases = [['foo bar baz', '42']]
     @text = Text.new('Foo, bar! baz\'s "quote')
   end
 
@@ -18,8 +17,19 @@ class PhraseCounterTest < MiniTest::Unit::TestCase
   end
 
   def test_stripping_punctuation
-    @phrase_counter.stubs(:sort_phrases).returns(@phrases)
+    @phrase_counter.stubs(:sort_phrases).returns([['foo bar baz', '42']])
     @phrase_counter.results_table.must_include "42 \t foo bar baz"
+  end
+
+  def test_similar_texts
+    small_text = Text.new("I love\nsandwiches")
+    big_text   = Text.new("(I LOVE SANDWICHES!!)")
+    small_phrase_counter = PhraseCounter.new
+
+    small_phrase_counter.count_phrases(small_text)
+    @phrase_counter.count_phrases(big_text)
+
+    assert small_phrase_counter.phrases == @phrase_counter.phrases
   end
 end
 
