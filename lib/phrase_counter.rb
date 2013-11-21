@@ -5,6 +5,10 @@ class PhraseCounter
     @phrases = {}
   end
 
+  def count(phrase)
+    @phrases[phrase] = phrases[phrase].nil? ? 1 : phrases[phrase] + 1
+  end
+
   def count_phrases(text)
     text.prepare_text.each_cons(3) do |t|
       phrase = t.join(' ')
