@@ -2,12 +2,12 @@ class PhraseCounter
   attr_reader :phrases, :recent_words
 
   def initialize
-    @phrases      = {}
+    @phrases = {}
     reset_recent_words_array
   end
 
   def process_character(char)
-    strip_newlines_from(char)
+    char = ' ' if char == "\n"
 
     return if char =~ /[^0-9a-z ]/i
 
@@ -37,7 +37,7 @@ class PhraseCounter
   private
 
   def reset_recent_words_array
-    @recent_words = ['','','']
+    @recent_words = ['', '', '']
   end
 
   def tally_word
@@ -52,9 +52,5 @@ class PhraseCounter
 
   def sorted_phrases
     @phrases.sort { |a, b| a[1] <=> b[1] }.reverse.slice(0, 100)
-  end
-
-  def strip_newlines_from(char)
-    char.gsub!(/\n/, ' ')
   end
 end

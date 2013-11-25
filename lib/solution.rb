@@ -3,12 +3,13 @@ require_relative 'phrase_counter'
 
 phrase_counter = PhraseCounter.new
 
+puts Benchmark.measure {
 ARGF.each_char do |char|
   phrase_counter.process_character(char)
 
   phrase_counter.final_tally if ARGF.eof?
 end
-
+}
 
 
 if phrase_counter.phrases.empty?
