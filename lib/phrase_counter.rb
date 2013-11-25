@@ -3,11 +3,7 @@ class PhraseCounter
 
   def initialize
     @phrases      = {}
-    @recent_words = ['', '', '']
-  end
-
-  def tally(phrase)
-    @phrases[phrase] = phrases[phrase].nil? ? 1 : phrases[phrase] + 1
+    reset_recent_words_array
   end
 
   def process_character(char)
@@ -18,10 +14,7 @@ class PhraseCounter
     if char != ' '
       @recent_words[2] << char.downcase
     else
-      tally(@recent_words.join(' ')) unless @recent_words.include? ''
-
-      @recent_words.shift
-      @recent_words << ''
+      tally_word
     end
   end
 
@@ -36,10 +29,29 @@ class PhraseCounter
     table
   end
 
+  def final_tally
+    tally_word
+    reset_recent_words_array
+  end
+
   private
 
+  def reset_recent_words_array
+    @recent_words = ['','','']
+  end
+
+  def tally_word
+    unless @recent_words.include? ''
+      phrase = @recent_words.join(' ')
+      @phrases[phrase] = phrases[phrase].nil? ? 1 : phrases[phrase] + 1
+    end
+
+    @recent_words.shift
+    @recent_words << ''
+  end
+
   def sorted_phrases
-    @phrases.sort { |a, b| a[1] <=> b[1] }.reverse.slice(0, 10)
+    @phrases.sort { |a, b| a[1] <=> b[1] }.reverse.slice(0, 100)
   end
 
   def strip_newlines_from(char)
