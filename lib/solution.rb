@@ -3,20 +3,9 @@ require_relative 'text'
 require_relative 'phrase_counter'
 
 phrase_counter = PhraseCounter.new
-words = ['', '', '']
 
 ARGF.each_char do |char|
-  char.gsub!(/\n/, ' ')
-  next if char =~ /[^0-9a-z ]/i
-
-  if char != " "
-    words[2] << char.downcase
-  else
-    phrase_counter.count(words.join(' ')) unless words.include? ''
-
-    words.shift
-    words << ''
-  end
+  phrase_counter.process_character(char)
 end
 
 if phrase_counter.phrases.empty?

@@ -8,6 +8,10 @@ class Text
     @text = strip_punctuation.split(' ')
   end
 
+  def self.strip_newlines_from(char)
+    char.gsub!(/\n/, ' ')
+  end
+
   private
 
   def strip_punctuation
