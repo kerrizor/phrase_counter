@@ -1,14 +1,25 @@
 require 'benchmark'
-require_relative 'text'
 require_relative 'phrase_counter'
 
 phrase_counter = PhraseCounter.new
-text_object = Text.new(ARGF.read)
 
-if text_object.text.empty?
+puts Benchmark.measure {
+ARGF.each_char do |char|
+  phrase_counter.process_character(char)
+
+  phrase_counter.final_tally if ARGF.eof?
+end
+}
+
+
+if phrase_counter.phrases.empty?
   puts "Sorry, we couldn't find any content to process."
 else
-  phrase_counter.count_phrases(text_object)
-
   puts phrase_counter.results_table
 end
+
+# TODO
+#
+# Problems
+# + stripping punctuation without look-ahead/behind
+# + how do we handle hyphenated words that span lines?
