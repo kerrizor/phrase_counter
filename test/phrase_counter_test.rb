@@ -10,8 +10,8 @@ class PhraseCounterTest < MiniTest::Unit::TestCase
 
   def test_counting_phrases_updates_the_phrase_hash
     assert_change(->{ @phrase_counter.phrases.dup }) do
-      @text.each_char do |char|
-        @phrase_counter.process_character(char)
+      @text.each_line do |line|
+        @phrase_counter.process_line(line)
       end
 
       @phrase_counter.final_tally
@@ -30,12 +30,12 @@ class PhraseCounterTest < MiniTest::Unit::TestCase
     big_text   = '(I LOVE SANDWICHES!!)'
     small_phrase_counter = PhraseCounter.new
 
-    small_text.each_char do |char|
-      small_phrase_counter.process_character(char)
+    small_text.each_line do |line|
+      small_phrase_counter.process_line(line)
     end
 
-    big_text.each_char do |char|
-      @phrase_counter.process_character(char)
+    big_text.each_line do |line|
+      @phrase_counter.process_line(line)
     end
 
     assert small_phrase_counter.phrases == @phrase_counter.phrases

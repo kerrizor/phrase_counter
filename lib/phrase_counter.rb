@@ -1,19 +1,20 @@
 class PhraseCounter
-  attr_reader :phrases, :recent_words
+  attr_reader :phrases, :words_list
 
   def initialize
     @phrases = {}
-    reset_recent_words_array
+    reset_words_list
   end
 
-  def process_character(char)
-    char = ' ' if char == "\n"
+  def process_line(line)
+    line = line.downcase.gsub(/\\n/, ' ')
 
-    return if char =~ /[^0-9a-z ]/i
+    words = line.gsub(/[^0-9a-z ]/i, '').split(' ')#.map(&:to_sym)
 
-    if char != ' '
-      @recent_words[2] << char.downcase
-    else
+    words.each do |word|
+      @words_list.shift
+      @words_list << word
+
       tally_word
     end
   end
@@ -31,23 +32,20 @@ class PhraseCounter
 
   def final_tally
     tally_word
-    reset_recent_words_array
+    reset_words_list
   end
 
   private
 
-  def reset_recent_words_array
-    @recent_words = ['', '', '']
+  def reset_words_list
+    @words_list = ['', '', '']
   end
 
   def tally_word
-    unless @recent_words.include? ''
-      phrase = @recent_words.join(' ')
+    unless @words_list.include? ''
+      phrase = @words_list.join(' ')
       @phrases[phrase] = phrases[phrase].nil? ? 1 : phrases[phrase] + 1
     end
-
-    @recent_words.shift
-    @recent_words << ''
   end
 
   def sorted_phrases
