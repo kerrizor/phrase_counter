@@ -4,8 +4,9 @@ require_relative 'phrase_counter'
 phrase_counter = PhraseCounter.new
 
 puts Benchmark.measure {
-  ARGF.each_char do |char|
-    phrase_counter.process_character(char)
+  ARGF.each_line do |line|
+
+    phrase_counter.process_line(line)
 
     phrase_counter.final_tally if ARGF.eof?
   end
@@ -16,9 +17,3 @@ if phrase_counter.phrases.empty?
 else
   puts phrase_counter.results_table
 end
-
-# TODO
-#
-# Problems
-# + stripping punctuation without look-ahead/behind
-# + how do we handle hyphenated words that span lines?
