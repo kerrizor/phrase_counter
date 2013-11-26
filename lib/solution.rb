@@ -1,14 +1,14 @@
 require 'benchmark'
 require_relative 'phrase_counter'
 
-phrase_counter = PhraseCounter.new
-
 interrupted = false
 trap('INT') { interrupted = true }
 
 puts 'Press ^C to exit'
 
 puts Benchmark.measure {
+  phrase_counter = PhraseCounter.new
+
   ARGF.each_line do |line|
     break if interrupted
 
